@@ -150,7 +150,7 @@ class First(Scene):
         self.wait(1)
 
         Amplifier = Square(side_length=2, fill_color=BLUE,
-                           fill_opacity=1, stroke_width=0)
+                           fill_opacity=1, stroke_width=0).set_z_index(1)
         Amplifiername = Text("Amplifier", color=WHITE).scale(
             0.5).next_to(Amplifier, UP)
         self.play(FadeIn(Amplifier), FadeIn(Amplifiername), run_time=1)
@@ -171,20 +171,28 @@ class First(Scene):
                   ApplyMethod(curvebrogroup2.shift, DOWN*0.7),
                   run_time=2)
         self.play(FadeOut(Amplifiername), rum_time=0.8)
-        self.play(ApplyMethod(Amplifier.scale, 4),
-                  ApplyMethod(curvebrogroup1.scale, 2),
-                  ApplyMethod(curvebrogroup3.scale, 2),
-                  ApplyMethod(curvebrogroup2.scale, 2),
-                  ApplyMethod(synthesis.shift, LEFT*5),
-                  ApplyMethod(Nameof.shift, LEFT*5),
-                  run_time=2
-                  )
-
+        curvebrogroup11 = curvebrogroup1
+        curvebrogroup22 = curvebrogroup2
+        self.play(
+            ApplyMethod(curvebrogroup11.shift, UP*0.3),
+            ApplyMethod(curvebrogroup22.shift, DOWN * 0.3)
+        )
+        self.play(
+            ApplyMethod(Amplifier.scale, 3.5),
+            ApplyMethod(curvebrogroup11.scale, 2),
+            ApplyMethod(curvebrogroup3.scale, 2),
+            ApplyMethod(curvebrogroup11.scale, 2),
+            ApplyMethod(curvebrogroup22.scale, 2),
+            ApplyMethod(curvebrogroup22.scale, 2),
+            ApplyMethod(synthesis.shift, LEFT*5),
+            ApplyMethod(Nameof.shift, LEFT*5),
+            run_time=2
+        )
         self.wait(0.2)
-        self.Shake(curvebrogroup1)
-        self.Shake(curvebrogroup2)
-        curvebrogroup1_copy = curvebrogroup1.copy()
-        curvebrogroup2_copy = curvebrogroup2.copy()
+        self.Shake(curvebrogroup11)
+        self.Shake(curvebrogroup22)
+        curvebrogroup1_copy = curvebrogroup11.copy()
+        curvebrogroup2_copy = curvebrogroup22.copy()
         self.play(
             AnimationGroup(
                 LaggedStart(
@@ -203,36 +211,104 @@ class First(Scene):
         self.play(LaggedStart(ApplyMethod(curvebrogroup1.shift, 2*RIGHT),
                   ApplyMethod(curvebrogroup2.shift, 2*RIGHT), lag_ratio=0.25, run_time=2))
 
-
         curvebrogroup1next_copy = curvebrogroup1_copy.copy()
         curvebrogroup2next_copy = curvebrogroup2_copy.copy()
 
-
         self.play(
             AnimationGroup(
                 LaggedStart(
-                    ApplyMethod(curvebrogroup1next_copy.shift, 2*UP),
-                    ApplyMethod(curvebrogroup2next_copy.shift, 2*UP),
+                    ApplyMethod(curvebrogroup1next_copy.shift, 1*UP),
+                    ApplyMethod(curvebrogroup2next_copy.shift, 1*DOWN),
                     lag_ratio=0.25,
                     run_time=1
                 ))
-            )
-        
+        )
         curvebrogroup1right_copy = curvebrogroup1.copy()
         curvebrogroup2right_copy = curvebrogroup2.copy()
-
         self.play(
             AnimationGroup(
                 LaggedStart(
-                    ApplyMethod(curvebrogroup1right_copy.shift, 2*UP),
-                    ApplyMethod(curvebrogroup2right_copy.shift, 2*UP),
+                    ApplyMethod(curvebrogroup1right_copy.shift, 1*UP),
+                    ApplyMethod(curvebrogroup2right_copy.shift, 1*DOWN),
                     lag_ratio=0.25,
                     run_time=1
                 ))
-            )
-        self.wait(1)
+        )
+        group = VGroup(curvebrogroup1right_copy, curvebrogroup2right_copy,
+                       curvebrogroup1next_copy, curvebrogroup2next_copy,
+                       curvebrogroup11, curvebrogroup22,
+                       curvebrogroup1_copy, curvebrogroup2_copy,
+                       curvebro1, curvebro2, curvebrogroup3,
+                       Amplifier)
+        self.play(ApplyMethod(group.scale, 0.3), runtime=1.4)
+        self.play(FadeIn(Amplifiername), run_time=0.5)
+        self.play(ApplyMethod(group.shift, LEFT * 4),
+                  ApplyMethod(Amplifiername.shift, LEFT*4),
+                  run_time=0.5)
 
+        # text1 = Tex("100101", color=WHITE).shift(LEFT*5).scale(1.2)
+        # self.play(Write(text1))
+        # square = Square(side_length=2, fill_color=BLUE,
+        # fill_opacity=1, stroke_width=0)
+        # square.shift(LEFT*0.4).set_z_index(1)
+        # channel = Text("Encoder", color=WHITE).scale(0.5).next_to(square, UP)
+        # self.play(FadeIn(square), FadeIn(channel))
+        # self.wait(0.5)
+        # text2 = Tex("100101", color=WHITE).scale(0.2)
+        # self.play(Transform(text1, text2), run_time=2)
+        # self.play(FadeOut(text1), FadeOut(text2), run_time=0.01)
+        # self.wait(1)
+        string_listdash = ["ACARAtGT", "CgTGTACA",
+                           "CATGTACA", "ACATACGTt", "CATACGT"]
+        colors = [WHITE, WHITE, WHITE, WHITE, WHITE]
+        text_objectsdash = []
+        max_width = 0
+        max_height = 0
+        for i, string in enumerate(string_listdash):
+            textdash = Text(string, color=colors[i]).scale(0.3).shift(LEFT*4)
+            textdash.shift(UP * (1 - i) * 0.3)
 
+            max_width = max(max_width, textdash.get_width())
+            max_height = max(max_height, textdash.get_height())
+            text_objectsdash.append(textdash)
+
+        for textdash in text_objectsdash:
+            textdash.scale_to_fit_width(max_width)
+            textdash.scale_to_fit_height(max_height)
+        # self.play(*[Write(text) for text in text_objects],run_time = 0.5)
+        text_objects_bigdash = [None, None, None,None,None]
+        text_objects_bigdash[0] = text_objectsdash[0].copy().shift(
+            RIGHT*7+UP*2).scale(1.3)
+        text_objects_bigdash[1] = text_objectsdash[1].copy().shift(
+            RIGHT*7+UP).scale(1.3)
+        text_objects_bigdash[2] = text_objectsdash[2].copy().shift(
+            RIGHT*7).scale(1.3)
+        text_objects_bigdash[3] = text_objectsdash[3].copy().shift(
+            RIGHT*7+DOWN*1).scale(1.3)
+        text_objects_bigdash[4] = text_objectsdash[4].copy().shift(
+            RIGHT*7+DOWN*2).scale(1.3)
+        text_objects_bigdash[0].set_z_index(0)
+        text_objects_bigdash[1].set_z_index(0)
+        text_objects_bigdash[2].set_z_index(0)
+        text_objects_bigdash[3].set_z_index(0)
+        text_objects_bigdash[4].set_z_index(0)
+        # self.Shake(square)\
+        self.play(FadeOut(curvebrogroup1right_copy, curvebrogroup2right_copy,
+                       curvebrogroup1next_copy, curvebrogroup2next_copy,
+                       curvebrogroup11, curvebrogroup22,
+                       curvebrogroup1_copy, curvebrogroup2_copy,
+                       curvebro1, curvebro2, curvebrogroup3),run_time=1)
+        self.play(
+            Transform(text_objectsdash[0], text_objects_bigdash[0]),
+            Transform(text_objectsdash[1], text_objects_bigdash[1]),
+            Transform(text_objectsdash[2], text_objects_bigdash[2]),
+            Transform(text_objectsdash[3], text_objects_bigdash[3]),
+            Transform(text_objectsdash[4], text_objects_bigdash[4]),
+            run_time=2
+        )
+        everything = VGroup(*self.mobjects)
+        self.play(FadeOut(everything))
+        self.wait(2)
 ######################################################################################################################################################
 
     def Shake(self, obj, num_shakes=6, shake_range=0.1, run_time=0.05):
