@@ -36,7 +36,7 @@ class zipffunction(Scene):
 
         # Create and position the formula object
         formula8 = MathTex(
-            "C = (1 - q)(1 - H(p) - \\frac{1}{\\beta})",
+            "C = (1 - q)(1 - \\frac{1}{\\beta})",
             font_size=72,
             color=WHITE
         ).scale(0.7)
@@ -113,11 +113,11 @@ class zipffunction(Scene):
         # Add the formula object to the scene
         self.play(Write(formula),run_time=2)
 
-        text11=Text(" ➣ s = parameter = concentration of drawn copies ", font_size=40, color=BLUE_A).scale(0.5).shift(DOWN*3.4)
-        self.play(FadeIn(text11),run_time=1.5)
+        # text11=Text(" ➣ s = parameter = concentration of drawn copies ", font_size=40, color=BLUE_A).scale(0.5).shift(DOWN*3.4)
+        # self.play(FadeIn(text11),run_time=1.5)
 
 
-        self.play(FadeOut(text7, text8, text9, formula,formula,text11,formula1,text6,formula8,formula_box))
+        self.play(FadeOut(text7, text8, text9, formula,formula,formula1,text6,formula8,formula_box))
 
 
         text12=Text(" QUICK EXAMPLE OF ZIPF DISTRIBUTION  ", font_size=40, color=BLUE_A).scale(0.5)
@@ -156,8 +156,7 @@ class zipffunction(Scene):
         for i, probability in enumerate(probabilities):
             probability.scale(0.5).shift(DOWN*j)
             j=j+0.3
-            self.play(Write(probability))
-            self.wait(0.5)
+            self.play(Write(probability),run_time=0.1)
 
         # Wait for a few seconds
         self.wait(3)
