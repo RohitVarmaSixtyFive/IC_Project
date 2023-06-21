@@ -4,15 +4,15 @@ class ZipfFunction(Scene):
     def construct(self):
         # Create and position the text object
         text = Text("TO SUM EVERYTHING UP , LET'S TAKE UP AN EXAMPLE \n\n", font_size=40, color=YELLOW_B).scale(0.7)
-        self.play(FadeIn(text), run_time=1.5)
+        self.play(FadeIn(text), run_time=.75)
 
         text2 = Text("AND UNDERSTAND ENTIRE ENCODING AND STORAGE CAPACITY\n\n", font_size=40, color=YELLOW_B).scale(0.7).shift(DOWN)
-        self.play(FadeIn(text2), run_time=1.5)
+        self.play(FadeIn(text2), run_time=.75)
         self.wait()
         self.play(FadeOut(text), FadeOut(text2))
 
         text = Text("Consider a SHUFFLING - SAMPLING CHANNEL\n\n which operates on M molecules each of length L", font_size=40, color=TEAL_A).scale(0.7)
-        self.play(FadeIn(text), run_time=1.5)
+        self.play(FadeIn(text), run_time=.75)
         self.wait()
         self.play(FadeOut(text))
 
@@ -23,11 +23,11 @@ class ZipfFunction(Scene):
 
         text2 = Text(" Encode a distinct index in the first log M bits of each molecule\nwe need log M bits for encoding ",
                      slant=ITALIC, font_size=40, color=WHITE).scale(0.6).shift(UP)
-        self.play(FadeIn(text2), run_time=1.5)
+        self.play(FadeIn(text2), run_time=.75)
         self.wait()
 
         text = Text(" Assume M = 8, so we have 3 bits available for the index encoding", slant=ITALIC, font_size=40, color=WHITE).scale(0.6)
-        self.play(FadeIn(text), run_time=1.5)
+        self.play(FadeIn(text), run_time=.75)
         self.wait()
 
         indices_values = [
@@ -51,8 +51,8 @@ class ZipfFunction(Scene):
         for i, text_object in enumerate(text_objects):
             text_object.scale(0.6).shift(DOWN * (k))
             k = k + 0.3
-            self.play(Write(text_object))
-            self.wait(0.3)
+            self.play(Write(text_object),run_time=0.2)
+
 
         # Fade out all elements
         self.wait(1)
@@ -65,11 +65,11 @@ class ZipfFunction(Scene):
 
         text2 = Text(" After encoding, we have L - log M symbols left per molecule to encode data.",
                      slant=ITALIC, font_size=40, color=WHITE).scale(0.6).shift(UP)
-        self.play(FadeIn(text2), run_time=1.5)
+        self.play(FadeIn(text2), run_time=0.75)
         self.wait()
 
         text = Text("Assume L = 10, so we have 10 - 3 = 7 symbols remaining for data encoding", slant=ITALIC, font_size=40, color=WHITE).scale(0.6)
-        self.play(FadeIn(text), run_time=1.5)
+        self.play(FadeIn(text), run_time=0.75)
         self.wait()
 
         self.play(*[FadeOut(obj) for obj in [distribution_text, text2, text] ])
@@ -82,14 +82,14 @@ class ZipfFunction(Scene):
 
 
         text1 = Text("Consider an erasure channel where an erasure occurs", slant=ITALIC, font_size=40, color=WHITE).scale(0.6).shift(UP)
-        self.play(FadeIn(text1), run_time=1.5)
+        self.play(FadeIn(text1), run_time=0.75)
         self.wait()
 
 
 
 
         text4 = Text(" when a molecule is not drawn (Ni = 0) with probability q0.", slant=ITALIC, font_size=40, color=WHITE).scale(0.6)
-        self.play(FadeIn(text4), run_time=1.5)
+        self.play(FadeIn(text4), run_time=0.75)
         self.wait()
 
         equation = MathTex(
@@ -103,7 +103,7 @@ class ZipfFunction(Scene):
 
 
         text = Text("Assume q0 = 0.2, meaning there's a 20% chance of a molecule being not drawn.", slant=ITALIC, font_size=40, color=WHITE).scale(0.6).shift(DOWN*2.5)
-        self.play(FadeIn(text), run_time=1.5)
+        self.play(FadeIn(text), run_time=0.75)
         self.wait()
 
         self.play(*[FadeOut(obj) for obj in [distribution_text, text] ],FadeOut(equation),FadeOut(text1),FadeOut(text4))
@@ -114,32 +114,32 @@ class ZipfFunction(Scene):
         self.play(FadeIn(distribution_text))
 
         text3 = Text("➣ We need to determine the number of molecules", slant=ITALIC, font_size=40, color=WHITE).scale(0.6).shift(UP)
-        self.play(FadeIn(text3), run_time=1.5)
+        self.play(FadeIn(text3), run_time=0.75)
         self.wait()
 
         text2 = Text("that can be effectively stored and transmitted", slant=ITALIC, font_size=40, color=WHITE).scale(0.6).shift(UP*0.6)
-        self.play(FadeIn(text2), run_time=1.5)
+        self.play(FadeIn(text2), run_time=0.75)
         self.wait()
 
         text4 = Text("➣ The number of molecules that can be transmitted is (1 - q0) * M", slant=ITALIC, font_size=40, color=WHITE).scale(0.6)
-        self.play(FadeIn(text4), run_time=1.5)
+        self.play(FadeIn(text4), run_time=0.75)
         self.wait()
 
 
         text5 = Text("since each molecule has a probability of 1 - q0 of not being erased.", slant=ITALIC, font_size=40, color=WHITE).scale(0.6).shift(DOWN*0.6)
-        self.play(FadeIn(text5), run_time=1.5)
+        self.play(FadeIn(text5), run_time=0.75)
         self.wait()
 
 
         text6 = Text("➣The number of symbols per transmitted molecule is (L - log M)", slant=ITALIC, font_size=40, color=WHITE).scale(0.6).shift(DOWN*1.7)
-        self.play(FadeIn(text6), run_time=1.5)
+        self.play(FadeIn(text6), run_time=0.75)
         self.wait()
 
         text7 = Text("since we use log M bits for indexing.", slant=ITALIC, font_size=40, color=WHITE).scale(0.6).shift(DOWN*2)
-        self.play(FadeIn(text7), run_time=1.5)
+        self.play(FadeIn(text7), run_time=0.75)
         self.wait()
 
-        self.play(*[FadeOut(obj) for obj in [ text] ],FadeOut(text3),FadeOut(text2),FadeOut(text4),FadeOut(text5),FadeOut(text6),FadeOut(text7),)
+        self.play(FadeOut(text3),FadeOut(text2),FadeOut(text4),FadeOut(text5),FadeOut(text6),FadeOut(text7),)
 
         equation = MathTex(
             r"\text{In our example: Storage rate} = (1 - 0.2) \times 8 \times (10 - 3) \div (8 \times 10)",
@@ -149,16 +149,16 @@ class ZipfFunction(Scene):
             color=WHITE
         ).scale(0.7).shift(UP*2)
         
-        self.play(FadeIn(equation[0]),run_time=1.5)
+        self.play(FadeIn(equation[0]),run_time=0.75)
         self.wait()
-        self.play(FadeIn(equation[1]),run_time=1.5)
+        self.play(FadeIn(equation[1]),run_time=0.75)
         self.wait()
-        self.play(FadeIn(equation[2]),run_time=1.5)
+        self.play(FadeIn(equation[2]),run_time=0.75)
         self.wait()
 
 
         text = Text("Checking with the storage rate expression :", slant=ITALIC, font_size=40, color=WHITE).scale(0.6).shift(UP*0.5)
-        self.play(FadeIn(text), run_time=1.5)
+        self.play(FadeIn(text), run_time=0.75)
         self.wait()
 
         equation1 = MathTex(
@@ -168,27 +168,5 @@ class ZipfFunction(Scene):
         ).scale(0.7)
 
         self.play(FadeIn(equation1))
-        self.wait()
+        self.wait(2)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
-#  assume q0 = 0.2, meaning there's a 20% chance of a molecule being not drawn
-# where an erasure occurs when a molecule is not drawn (Ni = 0) with probability q0.
-
-
-
-# erasure channel, where an erasure occurs when a molecule is not drawn (Ni = 0) with probability q0.
