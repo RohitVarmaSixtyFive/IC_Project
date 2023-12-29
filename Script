@@ -1,0 +1,296 @@
+                        DNA - BASED STORAGE MODEL:: MODELS AND FUNDAMENTAL LIMITS
+
+#######################################################################
+In this work, we study the fundamental limits and trade-offs of
+DNA-based storage systems by introducing a new channel model,
+which we call the noisy shuffling-sampling channel
+
+ this model captures three key distinctive aspects of
+DNA storage systems: (1) the data is written onto many short
+DNA molecules; (2) the molecules are corrupted by noise during
+synthesis and sequencing and (3) the data is read by randomly
+sampling from the DNA pool.
+
+DNA is a long molecule made up of four nucleotides (Adenine,
+Cytosine, Guanine, and Thymine) and, for storage purposes,
+can be viewed as a string over a four-letter alphabet
+
+In these systems, information was
+stored on molecules of no longer than one or two hundred
+nucleotides. At the time of reading, the information is accessed
+via state-of-the-art sequencing technologies.
+
+sequencing is preceded by several cycles of Poly-
+merase Chain Reaction (PCR) amplification
+
+Polymerase Chain Reaction (PCR) is a widely used technique in molecular biology that allows for the amplification of a specific DNA sequence. 
+
+    Denaturation: The first step is to heat the DNA sample containing the target sequence to a high temperature, typically around 95°C. This denatures the double-stranded DNA into two separate strands, breaking the hydrogen bonds between the base pairs.
+
+    Annealing: The temperature is then lowered to allow specific DNA primers to bind (anneal) to the complementary sequences on each of the single-stranded DNA templates. These primers are short DNA sequences that flank the target region and are designed to be complementary to the target DNA sequence.
+
+    Extension: A DNA polymerase enzyme, such as Taq polymerase, is added along with nucleotides (dNTPs). The temperature is raised to the optimal temperature for the DNA polymerase (usually around 72°C). The polymerase extends the primers by adding nucleotides in a 5' to 3' direction, synthesizing a new complementary DNA strand for each template strand. This process creates two new double-stranded DNA molecules.
+
+    Repeat cycles: The entire process is repeated for multiple cycles. Each cycle doubles the amount of DNA present, resulting in an exponential amplification of the target sequence. Typically, PCR consists of 20-40 cycles, although the exact number can vary depending on the desired amount of amplification.
+    (not much into detail just for reference ) 
+    
+In each cycle , each molecule is replicated by a factor of 1.6-1.8
+
+PROBLEMS OF DNA CREATION AND STORING :
+Finally, sequencing and in
+particular synthesis of DNA may lead to insertions, deletions,
+and substitutions of nucleotides in individual DNA molecules.
+
+#######################################################################
+
+# MATHEMATICAL MODEL : M DNA molecules each of lenght L -> N sequences drawn according to some distribution Q 
+
+A critical element of this model is that by drawing N
+sequences according to some distribution Q(can be poisson , beronoulli  or even binomial at times ) , the order of the
+sequences is lost
+
+THE GOAL :: is to reconstruct the information from the
+multi-set of N reads
+
+Throughout, we consider the asymptotic
+regime where M → ∞
+
+The main parameter of interest is the
+storage capacity C, defined as the maximum number of bits
+that can be reliably stored per nucleotide (the total number of
+nucleotides is M L)
+
+#######################################################################
+a) Capacity in the case of noise-free sequences :
+
+We start
+with a channel without errors in the individual sequences.
+
+Thus, randomness is only introduced through the distrib-
+ution Q, which describes the number of copies we draw
+from each input sequence.
+
+According to Q, some of the
+individual sequences might never be drawn and others are
+drawn many times. Our main result for this channel states
+that if limM→∞ L
+
+log M = β > 1, then
+                  C = (1 − q0)(1 − 1/β)
+ 
+Let's consider a scenario where Q follows a discrete distribution that assigns probabilities to the number of copies drawn from each sequence. We'll use a specific distribution for Q called the Zipf distribution.
+
+The Zipf distribution is a discrete power law distribution that models phenomena where a few items are extremely common, and the majority are rare. It is commonly used to describe the frequency of words in natural language processing.
+
+Suppose we have M input sequences, numbered from 1 to M. We define the distribution Q such that the probability of drawing exactly k copies from a particular sequence follows the Zipf distribution with a parameter s.
+
+The probability mass function of the Zipf distribution is given by:
+
+P(Q=k) = (1 / (k^s * H(M, s)))
+
+k = no of copies 
+s = parameter = concentration of drawn copies
+
+where H(M, s) is the generalized harmonic number defined as:
+
+H(M, s) = 1^(-s) + 2^(-s) + 3^(-s) + ... + M^(-s)
+
+In this example, the Zipf distribution parameter s controls the concentration of the drawn copies. Higher values of s result in a higher concentration of copies drawn from a small number of sequences, while lower values of s lead to a more uniform distribution.
+
+Q(1 copy) = 0.4624
+Q(2 copies) = 0.1541
+Q(3 copies) = 0.0768
+Q(4 copies) = 0.0462
+Q(5 copies) = 0.0308
+Q(6 copies) = 0.0219
+Q(7 copies) = 0.0162
+Q(8 copies) = 0.0125
+Q(9 copies) = 0.0099
+Q(10 copies) = 0.0081
+
+The probabilities will follow a power law distribution, where some sequences will have a higher probability of being drawn many times, while others will have a lower probability of being drawn at all.
+
+simple
+index-based scheme (as commonly used by DNA data storage
+systems) is optimal; i.e., prefixing each molecule with a unique
+index incurs no rate loss
+
+	ANIMATION : ERASURE CODE
+
+Erasure coding works by splitting a unit of data, such as a file or object, into multiple fragments (data blocks) and then creating additional fragments (parity blocks) that can be used for data recovery.
+
+The data and parity fragments are stored across multiple drives to protect against data loss in case a drive fails or data becomes corrupted on one of the drives. If such an event occurs, the parity fragments can be used to rebuild the data unit without experiencing data loss.
+
+#######################################################################
+POISSON RATIO :
+
+f(x) =(e– λ * λ^x)/x!
+
+Mean n Variance = λ
+
+Poisson distribution with a mean of λ. The parameter λ can be interpreted as the sequencing coverage depth, representing the average number of times each sequence is expected to be drawn
+
+Thus, the probability that a sequence is never drawn is P(X = 0) = e^(-λ). This expression demonstrates an exponential decay in the coverage depth. As the coverage depth increases (i.e., higher values of λ), the probability of a sequence being missed decreases exponentially.
+
+The expression for capacity suggests that practical systems should not operate at a high coverage depth N/M, where N represents the total number of sequences and M is the number of distinct sequences. Operating at a high coverage depth significantly increases the time and cost of reading without providing significant storage gains.
+
+To guarantee that all M sequences are observed at least once, the condition N = Ω(M log M) is suggested. Here, Ω denotes the "big Omega" notation, which implies at least condition
+. This condition ensures that the sequencing coverage is sufficient to capture all distinct sequences at least once
+
+#######################################################################
+
+b) Capacity in the case of noisy sequences:
+
+The goal of
+this second statement is to capture the effect of errors within
+sequences, in addition to the shuffling and sampling of the
+sequences
+
+distribution Q with which
+the sequences are drawn is a simple Bernoulli distribution;
+i.e., a sequence is either drawn once with probability 1 − q0
+or not drawn with probability q0.
+
+noisy
+shuffling-sampling model where the output sequences are
+obtained as follows: 
+(i) each original sequence is drawn with
+probability 1 − q and not drawn with probability q, 
+
+(ii) thedrawn sequences are shuffled, and
+
+ (iii) passed through a binary
+symmetric channel with crossover probability p
+
+A binary symmetric channel (BSC) is a communication channel model that introduces errors in the transmission of binary symbols. It is a common model used to analyze and understand the behavior of channels that are prone to bit-flip errors.
+
+In a binary symmetric channel, each transmitted bit has a probability of being flipped (inverted) during transmission. This probability is often denoted as p, representing the crossover probability.
+
+. The BSC assumes that errors occur independently and randomly, with a consistent probability of error for each transmitted bit
+
+The purpose of studying the capacity of a binary symmetric channel is to determine the maximum rate at which error-free communication can be achieved over such a channel
+
+C = (1 − q)(1 − H(p) − 1/β).
+
+#######################################################################
+
+PROBLEM SETTING AND CHANNEL MODELS ::
+
+An (M, L) DNA storage code C is a set of codewords,
+each of which is a list [x1L , . . . , xmL] of M strings of length L.
+
+The alphabet Σ is typically {A, C, G, T}, corresponding to the four nucleotides that
+compose DNA
+
+simplify the exposition we focus
+on the binary case Σ = {0, 1}
+
+
+ Throughout the paper we use the word molecule or
+sequence to refer to each of the stored strings of length L
+over the alphabet Σ
+
+1 ) In the given context, the codeword [xL₁, xL₂, ..., xLₘ] belongs to a specific code C. Each individual sequence xLᵢ, with a fixed length of L, is sampled a certain number of times denoted by Ni, where i ranges from 1 to M. The number of times each sequence is sampled follows a distribution Q = (q₀, q₁, ...), where qn represents the probability that xLᵢ is drawn n times
+
+2)Each of the resulting N strings is passed through a
+discrete memoryless channel.
+
+3) The resulting N strings are shuffled uniformly at random
+to yield the output [yL1 , . . . , yLN ]. Equivalently, the output
+of the channel is the (unordered) multi-set of N output sequences {yL
+1 , . . . , yLN }
+
+N= total number of strings !
+
+A decoding function then maps the received sequences
+[yL1 , . . . , yLN ] to a message index in {1, . . . , |C|}
+
+|C| = cardinality of codeword C = m
+
+
+The main
+parameter of interest of a DNA storage system is the storage
+density, or the storage rate, defined as the number of bits
+written per DNA base synthesized, i.e.,
+
+                             R = log|c|/ML
+                             
+                             
+STORAGE CAPACITY FOR THE NOISE -FREE CHANNEL ::
+
+An important property of DNA storage channels is the fact
+that the order or the molecules are lost
+
+
+The proof you mentioned is related to the capacity expression of a noise-free shuffling-sampling channel. Let's break down the proof step by step with an example to help illustrate the concepts.
+
+The capacity expression, as given in Equation (4), is:
+
+C = (1 − q0) (1 − 1/β)
+
+To achieve this capacity, the proof suggests a strategy where each molecule is prefixed with a distinct tag, effectively converting the channel into a block-erasure channel. This approach allows us to encode information in the remaining symbols of each molecule.
+
+Let's consider an example with a shuffling-sampling channel that operates on M molecules, each containing L symbols. We want to understand the achievable storage rate using the strategy proposed in the proof.
+
+Step 1: Encoding the indices
+The first step is to encode a distinct index in the first log M bits of each molecule. Since there are M molecules and we want each index to be distinct, we need log M bits for encoding.
+
+For simplicity, let's assume M = 8, so we have 3 bits available for the index encoding. The indices could range from 0 to 7, and each index would be represented by a unique combination of the 3 bits.
+
+For example, the indices 0 to 7 can be encoded as follows:
+
+    Index 0: 000
+    Index 1: 001
+    Index 2: 010
+    Index 3: 011
+    Index 4: 100
+    Index 5: 101
+    Index 6: 110
+    Index 7: 111
+
+Step 2: Remaining symbols for data encoding
+After encoding the indices, we have L - log M symbols left per molecule to encode data. In our example, let's assume L = 10, so we have 10 - 3 = 7 symbols remaining for data encoding.
+
+Step 3: Decoding and erasure channel interpretation
+The decoder can use the indices to remove duplicates and sort the molecules that are sampled. By doing this, it effectively creates an erasure channel, where an erasure occurs when a molecule is not drawn (Ni = 0) with probability q0.
+
+The expected number of erasures can be calculated as follows:
+E[1/M * ∑(i=1 to M) 1 {Ni = 0}] = q0
+
+In our example, let's assume q0 = 0.2, meaning there's a 20% chance of a molecule being not drawn.
+
+Step 4: Calculating the storage rate
+To calculate the storage rate, we need to determine the number of molecules that can be effectively stored and transmitted.
+
+The number of molecules that can be transmitted is (1 - q0) * M since each molecule has a probability of 1 - q0 of not being erased.
+
+The number of symbols per transmitted molecule is (L - log M) since we use log M bits for indexing.
+
+Therefore, the storage rate is given by:
+(1 - q0) * M * (L - log M) / (M * L)
+
+In our example:
+Storage rate = (1 - 0.2) * 8 * (10 - 3) / (8 * 10) = 0.8 * 8 * 7 / 80 = 0.56
+
+This matches the storage rate expression in Equation (4):
+C = (1 - q0) * (1 - 1/β) = 0.8 * (1 - 1/8) = 0.8 * 7/8 = 0.56
+
+So, the storage rate achieved using this strategy is (1 - q0) * (1 - 1/β), as stated in the proof.
+
+Overall, the proof shows how by prefixing each molecule with a distinct tag and utilizing the remaining symbols for data encoding, we can convert the shuffling-sampling channel into an erasure channel and achieve the storage rate given in Equation (4). The example helps illustrate how this strategy works in practice.
+
+The surprising aspect of Theorem 1 is that this simple
+index-based scheme is optimal
+
+
+ANIMATION :: block - erasure model !
+
+PROOF = NON NOISY CHANNEL STORAGE CAPACITY !
+
+=
+
+
+
+
+
+
